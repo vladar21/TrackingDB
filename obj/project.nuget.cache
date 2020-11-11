@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "UWGVpGKGw44d7ZZ0DfYBplytqW6arZljVKpb10Pyc7aLegEA3nyi8rW3iMzohcjYGA4Hufqd+Q6lXkVNI4+wZg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Vlad\\source\\repos\\TrackingDB\\TrackingDB.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vlad\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
