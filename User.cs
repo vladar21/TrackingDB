@@ -13,7 +13,7 @@ namespace TrackingDB
         public string LastName { get; set; }
         [JsonProperty("Age")]
         public int Age { get; set; }
-        private List<Point> UserPoints { get; set; }
+        public List<Point> UserPoints { get; set; }
 
         public User(string name, string lastName, int age)
         {

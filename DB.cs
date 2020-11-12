@@ -47,7 +47,7 @@ namespace TrackingDB
                     }
                 }
 
-                PathTrackingDB = Combine(CurrentDirectory, NameUserDB);
+                PathTrackingDB = Combine(CurrentDirectory, NameTrackingDB);
                 if (!File.Exists(PathTrackingDB))
                 {
                     StreamWriter trackingDB = File.CreateText(PathTrackingDB);
@@ -84,8 +84,6 @@ namespace TrackingDB
         public bool SavePoint(Point point)
         {
             // проверка на наличие в базе пользоватля с id, указанным при создании трек-точки
-            //if (allPointsList != null)
-            //{
             var IDs = from u in usersList
                              where u.ID == point.UserID
                              select new { ID = u.ID };
@@ -100,11 +98,6 @@ namespace TrackingDB
                 {
                     allPointsList.Add(point);
                 }
-            //}
-            //else
-            //{
-            //    allPointsList = new List<Point>();
-            //}
 
             // создание файла для записи            
             using (StreamWriter sw = File.CreateText(PathTrackingDB))
