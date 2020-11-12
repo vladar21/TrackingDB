@@ -29,3 +29,4 @@ C:\www\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.pdb
 C:\www\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.genruntimeconfig.cache
 C:\Users\Vlad\source\repos\TrackingDB\bin\Debug\netcoreapp3.1\CommandLine.dll
 C:\Users\Vlad\source\repos\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.csproj.CoreCompileInputs.cache
+C:\www\TrackingDB\bin\Debug\netcoreapp3.1\CommandLine.dll

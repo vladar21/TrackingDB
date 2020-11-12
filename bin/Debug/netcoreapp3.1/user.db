@@ -1,1 +1,1 @@
-"[\r\n  {\r\n    \"ID\": 1,\r\n    \"Name\": \"Alic\",\r\n    \"LastName\": \"Cooper\",\r\n    \"Age\": \"32\",\r\n    \"UserPoints\": []\r\n  }\r\n]"
+"[{\"ID\":1,\"Name\":\"Alice\",\"LastName\":\"Cooper\",\"Age\":\"23\"},{\"ID\":2,\"Name\":\"Mia\",\"LastName\":\"Markova\",\"Age\":\"22\"}]"

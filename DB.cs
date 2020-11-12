@@ -12,8 +12,8 @@ namespace TrackingDB
 {
     public class DB
     {
-        protected static string NameUserDB = "user.db";
-        protected static string NameTrackingDB = "tracking.db";
+        static string NameUserDB = "user.db";
+        static string NameTrackingDB = "tracking.db";
         public int CurrentID { get; set; }
         private string PathUserDB { get; set; }
         private string PathTrackingDB { get; set; }
@@ -24,8 +24,8 @@ namespace TrackingDB
 
         public DB()
         {
-            try
-            {
+            //try
+            //{
                 PathUserDB = Combine(CurrentDirectory, NameUserDB);
                 if (!File.Exists(PathUserDB))
                 {
@@ -67,68 +67,70 @@ namespace TrackingDB
                         allPointsList = list;
                     }
                 }
-            }
-            catch(Exception e)
-            {
-                // записать в лог-файл
-                using (FileStream fs = new FileStream(LogPath, FileMode.Append, FileAccess.Write))
-                using (StreamWriter sw = new StreamWriter(fs))
-                {
-                    sw.WriteLine("DB error: " + DateTime.Now + Environment.NewLine + e + Environment.NewLine);
-                }
+            //}
+            //catch(Exception e)
+            //{
+            //    // записать в лог-файл
+            //    using (FileStream fs = new FileStream(LogPath, FileMode.Append, FileAccess.Write))
+            //    using (StreamWriter sw = new StreamWriter(fs))
+            //    {
+            //        sw.WriteLine("DB error: " + DateTime.Now + Environment.NewLine + e + Environment.NewLine);
+            //    }
                 
-            }
+            //}
 
         }
 
         public bool SavePoint(Point point)
         {
-            GetUsersList();
+            //usersList = UpdateUsersList();
             // проверка на наличие в базе пользоватля с id, указанным при создании трек-точки
             if (usersList != null)
             {
                 var IDs = from u in usersList
                           where u.ID == point.UserID
-                          select new { ID = u.ID };                
-            }
-            var checkID = usersList.Select(u => u.ID);// == point.UserID).FirstOrDefault();
-            if (checkID == null)
-            {
-                // ошибка, такого ID в базе нет
-                return false;
-            }
-            else
-            {
-                allPointsList.Add(point);
-            }
+                          select new { ID = u.ID };
 
-            // создание файла для записи            
-            using (StreamWriter sw = File.CreateText(PathTrackingDB))
-            {
-                var convertedJson = JsonConvert.SerializeObject(allPointsList, Formatting.Indented);
-                // создание объекта для форматирования в JSON
-                var jss = new JsonSerializer();
-                // сериализация графа объектов в строку
-                jss.Serialize(sw, convertedJson);
-            }
+                var checkID = usersList.Select(u => u.ID);// == point.UserID).FirstOrDefault();
+                if (checkID == null)
+                {
+                    // ошибка, такого ID в базе нет
+                    return false;
+                }
+                else
+                {
+                    allPointsList.Add(point);
+                }
 
-            return true;
+                // создание файла для записи            
+                using (StreamWriter sw = File.CreateText(PathTrackingDB))
+                {
+                    var convertedJson = JsonConvert.SerializeObject(allPointsList);//, Formatting.Indented);
+                    // создание объекта для форматирования в JSON
+                    var jss = new JsonSerializer();
+                    // сериализация графа объектов в строку
+                    jss.Serialize(sw, convertedJson);
+                }
+
+                return true;
+            }
+            return false;
         }
 
-        public List<User> GetUsersList()
-        {
-            string JSONtxt = File.ReadAllText(PathUserDB);
-            var list = JsonConvert.DeserializeObject<List<User>>(JSONtxt);
-            if (list == null)
-            {
-                usersList = new List<User>();
-            }
-            else
-            {
-                usersList = list;
-            }
-            return usersList;
-        }
+        //public List<User> UpdateUsersList()
+        //{
+        //    string JSONtxt = File.ReadAllText(PathUserDB);
+        //    var list = JsonConvert.DeserializeObject<List<User>>(JSONtxt);
+        //    if (list == null)
+        //    {
+        //        usersList = new List<User>();
+        //    }
+        //    else
+        //    {
+        //        usersList = list;
+        //    }
+        //    return usersList;
+        //}
 
         public bool SaveUser(User user)
         {
@@ -144,7 +146,7 @@ namespace TrackingDB
             // создание файла для записи            
             using (StreamWriter sw = File.CreateText(PathUserDB))
             {
-                var convertedJson = JsonConvert.SerializeObject(usersList, Formatting.Indented);
+                var convertedJson = JsonConvert.SerializeObject(usersList);//, Formatting.Indented);
                 // создание объекта для форматирования в JSON
                 var jss = new JsonSerializer();
                 // сериализация графа объектов в строку

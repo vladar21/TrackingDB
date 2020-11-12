@@ -21,6 +21,8 @@ namespace TrackingDB
         /// </summary>
         public static bool Q { get; set; } = true;
 
+        private static DB db { get; set; } = new DB();
+
         static void Main() // string[] args
         {
             string[] args = { "add", "-k", "12345" };
@@ -48,7 +50,7 @@ namespace TrackingDB
             {
                 WriteLine("Incorrect input datas. Try again.");
             }
-            
+
 
 
             //DB db = new DB();
@@ -67,6 +69,9 @@ namespace TrackingDB
             //Point point5 = new Point(40.003, 60.08, 2);
             //db.SavePoint(point5);
 
+            WriteLine("The session is over");
+
+
         }
 
         private static void PrintDB()
@@ -78,6 +83,7 @@ namespace TrackingDB
         private static void InputNewUsers()
         {
             do {
+                Q = true;
                 string strUser = ReadLine();
                 string[] readline = ParseArguments(strUser);
                 if (readline[0] == ":q")
@@ -94,11 +100,12 @@ namespace TrackingDB
                     }
 
                     User user = new User(readline);
-                    DB db = new DB();
+                    //DB db = new DB();
                     db.SaveUser(user);
 
                     do
                     {
+                        T = true;
                         string strPoint = ReadLine();
                         string[] readPoint = ParseArguments(strPoint);
                         if (readPoint[0] == ":t")
@@ -109,16 +116,28 @@ namespace TrackingDB
                         {
                             if (readPoint.Count() != 2)
                             {
-                                WriteLine("Incorrect input users data. Try again. \r\b\r\b Press any keys to exit");
-                                ReadKey();
-                                Exit(0);
+                                do 
+                                {
+                                    T = true;
+                                    WriteLine("Incorrect input users data. Try again." + Environment.NewLine + Environment.NewLine + "Or type :t to exit");
+                                    strPoint = ReadLine();
+                                    readPoint = ParseArguments(strPoint);
+                                    if (readPoint[0] == ":t" || readPoint.Count() == 2)
+                                    {
+                                        T = false;
+                                    }
+                                } while (T);
+
+                                T = true;
+                                //ReadKey();
+                                //Exit(0);
                             }
                             string ltt = string.Join("", readPoint[0]);
                             string lng = string.Join("", readPoint[1]);
                             (string latitude, string longitude, int userID) newPoint = (ltt, lng, user.ID);
                             Point point = new Point(newPoint);
-                            DB dbP = new DB();
-                            dbP.SavePoint(point);
+                            //DB dbP = new DB();
+                            db.SavePoint(point);
                         }
                     }
                     while (T);
