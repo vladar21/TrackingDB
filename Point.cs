@@ -1,4 +1,5 @@
 ﻿
+using System;
 using Newtonsoft.Json;
 
 namespace TrackingDB
@@ -6,17 +7,17 @@ namespace TrackingDB
     public readonly struct Point
     {
         [JsonProperty("Latitude")]
-        public double Latitude { get; }
+        public string Latitude { get; }
         [JsonProperty("Longitude")]
-        public double Longitude { get; }
+        public string Longitude { get; }
         [JsonProperty("UserID")]
         public int UserID { get; }
 
-        public Point(double latitude, double longitude, int userid)
+        public Point((string latitude, string longitude, int userID) newPoint)
         {
-            Latitude = latitude;
-            Longitude = longitude;
-            UserID = userid;
+            Latitude = newPoint.latitude;
+            Longitude = newPoint.longitude;
+            UserID = newPoint.userID;
         }
 
     }

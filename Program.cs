@@ -12,21 +12,25 @@ namespace TrackingDB
 
     class Program
     {
-       
+        /// <summary>
+        /// ключ :t  признак конца ввода трекинговой информации
+        /// </summary>
+        public static bool T { get; set; } = true;
+        /// <summary>
+        /// ключ :q - конец ввода пользователей
+        /// </summary>
+        public static bool Q { get; set; } = true;
 
         static void Main() // string[] args
         {
             string[] args = { "add", "-k", "12345" };
-            if (args.Count() > 0)
+            if (args.Count() > 0 && args.Count() < 4)
             {
                 CLI cli = new CLI(args);
 
                 if (cli.Add && cli.K && args.Count() == 3 && cli.Verify)
                 {
-                    string[] inputNewUser = InputNewUser();
-                    User user = new User(inputNewUser);
-                    DB db = new DB();
-                    db.SaveUser(user);
+                    InputNewUsers();  
                     
                 }
 
@@ -71,19 +75,58 @@ namespace TrackingDB
             //foreach($item in db.usersList)
         }
 
-        private static string[] InputNewUser()
+        private static void InputNewUsers()
         {
-            string str = ReadLine();
-            string[] readline = ParseArguments(str);            
+            do {
+                string strUser = ReadLine();
+                string[] readline = ParseArguments(strUser);
+                if (readline[0] == ":q")
+                {
+                    Q = false;
+                }
+                else
+                {
+                    if (readline.Count() != 3)
+                    {
+                        WriteLine("Incorrect input users data. Try again. \r\b\r\b Press any keys to exit");
+                        ReadKey();
+                        Exit(0);
+                    }
 
-            if (readline.Count() != 3)
-            {
-                WriteLine("Incorrect input users data. Try again. \r\b\r\b Press any keys to exit");
-                ReadKey();
-                Exit(0);
-            }
+                    User user = new User(readline);
+                    DB db = new DB();
+                    db.SaveUser(user);
 
-            return readline;
+                    do
+                    {
+                        string strPoint = ReadLine();
+                        string[] readPoint = ParseArguments(strPoint);
+                        if (readPoint[0] == ":t")
+                        {
+                            T = false;
+                        }
+                        else
+                        {
+                            if (readPoint.Count() != 2)
+                            {
+                                WriteLine("Incorrect input users data. Try again. \r\b\r\b Press any keys to exit");
+                                ReadKey();
+                                Exit(0);
+                            }
+                            string ltt = string.Join("", readPoint[0]);
+                            string lng = string.Join("", readPoint[1]);
+                            (string latitude, string longitude, int userID) newPoint = (ltt, lng, user.ID);
+                            Point point = new Point(newPoint);
+                            DB dbP = new DB();
+                            dbP.SavePoint(point);
+                        }
+                    }
+                    while (T);
+
+                }
+
+            } while (Q);
+            
         }
 
         private static string[] ParseArguments(string commandLine)

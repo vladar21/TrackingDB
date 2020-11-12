@@ -74,7 +74,7 @@ namespace TrackingDB
                 using (FileStream fs = new FileStream(LogPath, FileMode.Append, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("DB error: " + DateTime.Now + "\r\b" + e + "\r\b");
+                    sw.WriteLine("DB error: " + DateTime.Now + Environment.NewLine + e + Environment.NewLine);
                 }
                 
             }
@@ -83,21 +83,24 @@ namespace TrackingDB
 
         public bool SavePoint(Point point)
         {
+            GetUsersList();
             // проверка на наличие в базе пользоватля с id, указанным при создании трек-точки
-            var IDs = from u in usersList
-                             where u.ID == point.UserID
-                             select new { ID = u.ID };
+            if (usersList != null)
+            {
+                var IDs = from u in usersList
+                          where u.ID == point.UserID
+                          select new { ID = u.ID };                
+            }
             var checkID = usersList.Select(u => u.ID);// == point.UserID).FirstOrDefault();
-
-                if (checkID == null)
-                {
-                    // ошибка, такого ID в базе нет
-                    return false;
-                }
-                else
-                {
-                    allPointsList.Add(point);
-                }
+            if (checkID == null)
+            {
+                // ошибка, такого ID в базе нет
+                return false;
+            }
+            else
+            {
+                allPointsList.Add(point);
+            }
 
             // создание файла для записи            
             using (StreamWriter sw = File.CreateText(PathTrackingDB))
@@ -110,6 +113,21 @@ namespace TrackingDB
             }
 
             return true;
+        }
+
+        public List<User> GetUsersList()
+        {
+            string JSONtxt = File.ReadAllText(PathUserDB);
+            var list = JsonConvert.DeserializeObject<List<User>>(JSONtxt);
+            if (list == null)
+            {
+                usersList = new List<User>();
+            }
+            else
+            {
+                usersList = list;
+            }
+            return usersList;
         }
 
         public bool SaveUser(User user)
