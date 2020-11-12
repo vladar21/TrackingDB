@@ -11,7 +11,6 @@ C:\Users\Vlad\source\repos\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.dll
 C:\Users\Vlad\source\repos\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.pdb
 C:\Users\Vlad\source\repos\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.genruntimeconfig.cache
 C:\Users\Vlad\source\repos\TrackingDB\bin\Debug\netcoreapp3.1\Newtonsoft.Json.dll
-C:\Users\Vlad\source\repos\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.csproj.CoreCompileInputs.cache
 C:\Users\Vlad\source\repos\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.csproj.CopyComplete
 C:\www\TrackingDB\bin\Debug\netcoreapp3.1\TrackingDB.exe
 C:\www\TrackingDB\bin\Debug\netcoreapp3.1\TrackingDB.deps.json
@@ -28,3 +27,5 @@ C:\www\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.csproj.CopyComplete
 C:\www\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.dll
 C:\www\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.pdb
 C:\www\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.genruntimeconfig.cache
+C:\Users\Vlad\source\repos\TrackingDB\bin\Debug\netcoreapp3.1\CommandLine.dll
+C:\Users\Vlad\source\repos\TrackingDB\obj\Debug\netcoreapp3.1\TrackingDB.csproj.CoreCompileInputs.cache

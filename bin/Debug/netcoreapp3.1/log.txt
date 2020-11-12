@@ -1,0 +1,41 @@
+DB error: 12.11.2020 14:41:58Newtonsoft.Json.JsonSerializationException: Error converting value "[
+  {
+    "Latitude": 25.222,
+    "Longitude": 32.777,
+    "UserID": 1
+  },
+  {
+    "Latitude": 25.22,
+    "Longitude": 32.78,
+    "UserID": 1
+  },
+  {
+    "Latitude": 25.218,
+    "Longitude": 32.787,
+    "UserID": 1
+  },
+  {
+    "Latitude": 40.001,
+    "Longitude": 60.02,
+    "UserID": 2
+  },
+  {
+    "Latitude": 40.003,
+    "Longitude": 60.08,
+    "UserID": 2
+  }
+]" to type 'System.Collections.Generic.List`1[TrackingDB.Point]'. Path '', line 1, position 478.
+ ---> System.ArgumentException: Could not cast or convert from System.String to System.Collections.Generic.List`1[TrackingDB.Point].
+   at Newtonsoft.Json.Utilities.ConvertUtils.EnsureTypeAssignable(Object value, Type initialType, Type targetType)
+   at Newtonsoft.Json.Utilities.ConvertUtils.ConvertOrCast(Object initialValue, CultureInfo culture, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonSerializer.Deserialize(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
+   at TrackingDB.DB..ctor() in C:\Users\Vlad\source\repos\TrackingDB\DB.cs:line 60

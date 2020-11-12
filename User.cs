@@ -12,15 +12,15 @@ namespace TrackingDB
         [JsonProperty("LastName")]
         public string LastName { get; set; }
         [JsonProperty("Age")]
-        public int Age { get; set; }
+        public string Age { get; set; }
         public List<Point> UserPoints { get; set; }
 
-        public User(string name, string lastName, int age)
+        public User(string[] newUser)
         {
             ID = 0;
-            Name = name;
-            LastName = lastName;
-            Age = age;
+            Name = newUser[0];
+            LastName = newUser[1];
+            Age = newUser[2];
             UserPoints = new List<Point>();
         }
 

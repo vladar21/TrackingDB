@@ -2,35 +2,103 @@
 using static System.Console;
 using System.IO;
 using static System.Environment;
-using static System.IO.Path;
-using Newtonsoft.Json;
-
+using CommandLine;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace TrackingDB
 {
 
     class Program
-    {        
-                
-        static void Main(string[] args)
-        {
-            DB db = new DB();
-            User user1 = new User("Vasily", "Pupkin", 35);
-            db.SaveUser(user1);
-            User user2 = new User("Masha", "Lopareva", 15);
-            db.SaveUser(user2);
-            Point point1 = new Point(25.222, 32.777, 1);
-            db.SavePoint(point1);
-            Point point2 = new Point(25.220, 32.780, 1);
-            db.SavePoint(point2);
-            Point point3 = new Point(25.218, 32.787, 1);
-            db.SavePoint(point3);
-            Point point4 = new Point(40.001, 60.02, 2);
-            db.SavePoint(point4);
-            Point point5 = new Point(40.003, 60.08, 2);
-            db.SavePoint(point5);
+    {
+       
 
-        }        
+        static void Main() // string[] args
+        {
+            string[] args = { "add", "-k", "12345" };
+            if (args.Count() > 0)
+            {
+                CLI cli = new CLI(args);
+
+                if (cli.Add && cli.K && args.Count() == 3 && cli.Verify)
+                {
+                    string[] inputNewUser = InputNewUser();
+                    User user = new User(inputNewUser);
+                    DB db = new DB();
+                    db.SaveUser(user);
+                    
+                }
+
+                if (cli.Read && cli.K && args.Count() == 3 && cli.Verify)
+                {
+                    PrintDB();
+                }
+
+                if (cli.Find && cli.K && args.Count() == 3 && cli.Verify)
+                {
+                    //FindByUserName();
+                }
+            }
+            else
+            {
+                WriteLine("Incorrect input datas. Try again.");
+            }
+            
+
+
+            //DB db = new DB();
+            //User user1 = new User("Vasily", "Pupkin", 35);
+            //db.SaveUser(user1);
+            //User user2 = new User("Masha", "Lopareva", 15);
+            //db.SaveUser(user2);
+            //Point point1 = new Point(25.222, 32.777, 1);
+            //db.SavePoint(point1);
+            //Point point2 = new Point(25.220, 32.780, 1);
+            //db.SavePoint(point2);
+            //Point point3 = new Point(25.218, 32.787, 1);
+            //db.SavePoint(point3);
+            //Point point4 = new Point(40.001, 60.02, 2);
+            //db.SavePoint(point4);
+            //Point point5 = new Point(40.003, 60.08, 2);
+            //db.SavePoint(point5);
+
+        }
+
+        private static void PrintDB()
+        {
+            //DB db = new DB();
+            //foreach($item in db.usersList)
+        }
+
+        private static string[] InputNewUser()
+        {
+            string str = ReadLine();
+            string[] readline = ParseArguments(str);            
+
+            if (readline.Count() != 3)
+            {
+                WriteLine("Incorrect input users data. Try again. \r\b\r\b Press any keys to exit");
+                ReadKey();
+                Exit(0);
+            }
+
+            return readline;
+        }
+
+        private static string[] ParseArguments(string commandLine)
+        {
+            char[] parmChars = commandLine.ToCharArray();
+            bool inQuote = false;
+            for (int index = 0; index < parmChars.Length; index++)
+            {
+                if (parmChars[index] == '"')
+                    inQuote = !inQuote;
+                if (!inQuote && parmChars[index] == ' ')
+                    parmChars[index] = '\n';
+            }
+            return (new string(parmChars)).Split('\n');
+        }
 
         static void WT()
         {
@@ -51,5 +119,5 @@ namespace TrackingDB
         }
     }
 
-    
+
 }
