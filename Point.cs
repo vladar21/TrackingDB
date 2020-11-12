@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using Newtonsoft.Json;
 
 namespace TrackingDB
 {
     public readonly struct Point
     {
+        [JsonProperty("Latitude")]
         public double Latitude { get; }
-
+        [JsonProperty("Longitude")]
         public double Longitude { get; }
-
+        [JsonProperty("UserID")]
         public int UserID { get; }
 
         public Point(double latitude, double longitude, int userid)

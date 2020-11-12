@@ -1,7 +1,24 @@
-DB error: 11.11.2020 13:56:23Newtonsoft.Json.JsonSerializationException: Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'TrackingDB.User[]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.
-To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.
-Path 'ID', line 1, position 6.
-   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+DB error: 12.11.2020 03:07:37
+Newtonsoft.Json.JsonSerializationException: Error converting value "[
+  {
+    "ID": 1,
+    "Name": "Vasily",
+    "LastName": "Pupkin",
+    "Age": 35
+  },
+  {
+    "ID": 2,
+    "Name": "Masha",
+    "LastName": "Lopareva",
+    "Age": 15
+  }
+]" to type 'System.Collections.Generic.List`1[TrackingDB.User]'. Path '', line 1, position 236.
+ ---> System.ArgumentException: Could not cast or convert from System.String to System.Collections.Generic.List`1[TrackingDB.User].
+   at Newtonsoft.Json.Utilities.ConvertUtils.EnsureTypeAssignable(Object value, Type initialType, Type targetType)
+   at Newtonsoft.Json.Utilities.ConvertUtils.ConvertOrCast(Object initialValue, CultureInfo culture, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
    at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
    at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
    at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
@@ -9,11 +26,29 @@ Path 'ID', line 1, position 6.
    at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
    at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
    at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
-   at TrackingDB.DB.GetNextUserID() in C:\Users\Vlad\source\repos\TrackingDB\DB.cs:line 55
-DB error: 11.11.2020 13:59:08Newtonsoft.Json.JsonSerializationException: Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'TrackingDB.User[]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.
-To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.
-Path 'ID', line 1, position 6.
-   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at TrackingDB.DB..ctor() in C:\www\TrackingDB\DB.cs:line 39
+
+DB error: 12.11.2020 03:08:44
+Newtonsoft.Json.JsonSerializationException: Error converting value "[
+  {
+    "ID": 1,
+    "Name": "Vasily",
+    "LastName": "Pupkin",
+    "Age": 35
+  },
+  {
+    "ID": 2,
+    "Name": "Masha",
+    "LastName": "Lopareva",
+    "Age": 15
+  }
+]" to type 'System.Collections.Generic.List`1[TrackingDB.User]'. Path '', line 1, position 236.
+ ---> System.ArgumentException: Could not cast or convert from System.String to System.Collections.Generic.List`1[TrackingDB.User].
+   at Newtonsoft.Json.Utilities.ConvertUtils.EnsureTypeAssignable(Object value, Type initialType, Type targetType)
+   at Newtonsoft.Json.Utilities.ConvertUtils.ConvertOrCast(Object initialValue, CultureInfo culture, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
    at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
    at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
    at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
@@ -21,11 +56,29 @@ Path 'ID', line 1, position 6.
    at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
    at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
    at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
-   at TrackingDB.DB.GetNextUserID() in C:\Users\Vlad\source\repos\TrackingDB\DB.cs:line 55
-DB error: 11.11.2020 13:59:08Newtonsoft.Json.JsonSerializationException: Cannot deserialize the current JSON object (e.g. {"name":"value"}) into type 'TrackingDB.User[]' because the type requires a JSON array (e.g. [1,2,3]) to deserialize correctly.
-To fix this error either change the JSON to a JSON array (e.g. [1,2,3]) or change the deserialized type so that it is a normal .NET type (e.g. not a primitive type like integer, not a collection type like an array or List<T>) that can be deserialized from a JSON object. JsonObjectAttribute can also be added to the type to force it to deserialize from a JSON object.
-Path 'id', line 1, position 6.
-   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at TrackingDB.DB..ctor() in C:\www\TrackingDB\DB.cs:line 39
+
+DB error: 12.11.2020 03:37:32
+Newtonsoft.Json.JsonSerializationException: Error converting value "[
+  {
+    "ID": 1,
+    "Name": "Vasily",
+    "LastName": "Pupkin",
+    "Age": 35
+  },
+  {
+    "ID": 2,
+    "Name": "Masha",
+    "LastName": "Lopareva",
+    "Age": 15
+  }
+]" to type 'System.Collections.Generic.List`1[TrackingDB.User]'. Path '', line 1, position 236.
+ ---> System.ArgumentException: Could not cast or convert from System.String to System.Collections.Generic.List`1[TrackingDB.User].
+   at Newtonsoft.Json.Utilities.ConvertUtils.EnsureTypeAssignable(Object value, Type initialType, Type targetType)
+   at Newtonsoft.Json.Utilities.ConvertUtils.ConvertOrCast(Object initialValue, CultureInfo culture, Type targetType)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
+   --- End of inner exception stack trace ---
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EnsureType(JsonReader reader, Object value, CultureInfo culture, JsonContract contract, Type targetType)
    at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
    at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
    at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
@@ -33,4 +86,5 @@ Path 'id', line 1, position 6.
    at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
    at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
    at Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value)
-   at TrackingDB.DB.GetNextUserID() in C:\Users\Vlad\source\repos\TrackingDB\DB.cs:line 55
+   at TrackingDB.DB..ctor() in C:\www\TrackingDB\DB.cs:line 39
+

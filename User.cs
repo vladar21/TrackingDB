@@ -1,28 +1,27 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace TrackingDB
 {
     public class User
     {
-        [JsonProperty("id")]
+        [JsonProperty("ID")]
         public int ID { get; set; }
-        [JsonProperty("name")]
+        [JsonProperty("Name")]
         public string Name { get; set; }
-        [JsonProperty("lastname")]
+        [JsonProperty("LastName")]
         public string LastName { get; set; }
-        [JsonProperty("age")]
+        [JsonProperty("Age")]
         public int Age { get; set; }
+        private List<Point> UserPoints { get; set; }
 
-        public User(string name, string lastName, int age, DB db)
+        public User(string name, string lastName, int age)
         {
-            ID = db.GetNextUserID();
+            ID = 0;
             Name = name;
             LastName = lastName;
             Age = age;
-            db.Save(this);
+            UserPoints = new List<Point>();
         }
 
     }

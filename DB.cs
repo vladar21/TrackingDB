@@ -12,58 +12,64 @@ namespace TrackingDB
 {
     public class DB
     {
-
-
-        private string Path { get; set; }
+        protected static string NameUserDB = "user.db";
+        protected static string NameTrackingDB = "tracking.db";
+        public int CurrentID { get; set; }
+        private string PathUserDB { get; set; }
+        private string PathTrackingDB { get; set; }
         private string LogPath { get; set; } = "log.txt";
+        public List<User> usersList { get; set; }
+        private List<Point> userPointsList { get; set; }
+        private List<Point> allPointsList { get; set; }
 
-        public DB(string path)
-        {
-            Path = path;
-        }
-
-        public void Save(object obj)
-        {
-            // создание файла для записи            
-            StreamWriter jsonStream = File.CreateText(Path);
-
-            // создание объекта для форматирования в JSON
-            var jss = new JsonSerializer();
-
-            // сериализация графа объектов в строку
-            jss.Serialize(jsonStream, obj);
-            jsonStream.Close(); // разблокировать файл
-            WriteLine();
-            WriteLine($"Written {new FileInfo(Path).Length} bytes of JSON to: { Path } ");
-
-            // отображение сериализованного графа объектов
-            WriteLine(File.ReadAllText(Path));
-        }
-
-        public int GetNextUserID()
+        public DB()
         {
             try
             {
-                //string jsonString = File.ReadAllText(JsonPathUser);
-                //string jsonString1 = jsonString;
-                //List<User> userList= JsonConvert.DeserializeObject<List<User>>(jsonString1).ToList();            
-              
-
-                if (File.Exists(Path))
+                PathUserDB = Combine(CurrentDirectory, NameUserDB);
+                if (!File.Exists(PathUserDB))
                 {
-                    string JSONtxt = File.ReadAllText(Path);
-                    var usersList = Newtonsoft.Json.JsonConvert.DeserializeObject<User>(JSONtxt);
-
-                    //int currentID = usersList.OrderByDescending(x => x.ID).First().ID;
-                    //var entries = JSON.Deserialize<Dictionary<string, DbTableEntryModel>>(jsonString).Select(x => x.Value).ToList();
-                    //currentID++;
-                    return 1;
-
+                    StreamWriter userDB = File.CreateText(PathUserDB);
+                    userDB.Close();
+                    usersList = new List<User>();
                 }
-                return 0;
-                
+                else
+                {                   
+                    string JSONtxt = File.ReadAllText(PathUserDB);
+                    var list = JsonConvert.DeserializeObject<List<User>>(JSONtxt);
+                    if (list == null) 
+                    {
+                        usersList = new List<User>();
+                    }
+                    else
+                    {
+                        usersList = list;
+                    }
+                }
+
+                PathTrackingDB = Combine(CurrentDirectory, NameUserDB);
+                if (!File.Exists(PathTrackingDB))
+                {
+                    StreamWriter trackingDB = File.CreateText(PathTrackingDB);
+                    trackingDB.Close();
+                    allPointsList = new List<Point>();
+                }
+                else
+                {
+                    string JSONtxt = File.ReadAllText(PathTrackingDB);
+                    var list = JsonConvert.DeserializeObject<List<Point>>(JSONtxt);
+                    if (list == null)
+                    {
+                        allPointsList = new List<Point>();
+                    }
+                    else
+                    {
+                        allPointsList = list;
+                    }
+                }
             }
-            catch(Exception e){
+            catch(Exception e)
+            {
                 // записать в лог-файл
                 using (FileStream fs = new FileStream(LogPath, FileMode.Append, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))
@@ -71,11 +77,102 @@ namespace TrackingDB
                     sw.WriteLine("DB error: " + DateTime.Now + "\r\b" + e + "\r\b");
                 }
                 
-                return 0;
             }
-            
+
         }
 
+        public bool SavePoint(Point point)
+        {
+            // проверка на наличие в базе пользоватля с id, указанным при создании трек-точки
+            //if (allPointsList != null)
+            //{
+            var IDs = from u in usersList
+                             where u.ID == point.UserID
+                             select new { ID = u.ID };
+            var checkID = usersList.Select(u => u.ID);// == point.UserID).FirstOrDefault();
+
+                if (checkID == null)
+                {
+                    // ошибка, такого ID в базе нет
+                    return false;
+                }
+                else
+                {
+                    allPointsList.Add(point);
+                }
+            //}
+            //else
+            //{
+            //    allPointsList = new List<Point>();
+            //}
+
+            // создание файла для записи            
+            using (StreamWriter sw = File.CreateText(PathTrackingDB))
+            {
+                var convertedJson = JsonConvert.SerializeObject(allPointsList, Formatting.Indented);
+                // создание объекта для форматирования в JSON
+                var jss = new JsonSerializer();
+                // сериализация графа объектов в строку
+                jss.Serialize(sw, convertedJson);
+            }
+
+            return true;
+        }
+
+        public bool SaveUser(User user)
+        {
+            GetNextUserID();
+            user.ID = CurrentID;
+                      
+            if (usersList == null)
+            {
+                usersList = new List<User>();
+            }
+            usersList.Add(user);
+
+            // создание файла для записи            
+            using (StreamWriter sw = File.CreateText(PathUserDB))
+            {
+                var convertedJson = JsonConvert.SerializeObject(usersList, Formatting.Indented);
+                // создание объекта для форматирования в JSON
+                var jss = new JsonSerializer();
+                // сериализация графа объектов в строку
+                jss.Serialize(sw, convertedJson);
+            }
+            return true;
+        }
+
+        public int GetNextUserID()
+        {
+            try
+            {
+                if (usersList != null)
+                {
+                    var lastID = usersList.OrderByDescending(x => x.ID).FirstOrDefault();
+                    if (lastID == null) { CurrentID = 0;  }
+                    else { CurrentID = lastID.ID;  }
+                }
+                else
+                {
+                    CurrentID = 0;
+                }
+            
+                CurrentID++;
+            }
+            catch(Exception e)
+            {
+                // записать в лог-файл
+                using (FileStream fs = new FileStream(LogPath, FileMode.Append, FileAccess.Write))
+                using (StreamWriter sw = new StreamWriter(fs))
+                {
+                    sw.WriteLine("DB error: " + DateTime.Now + "\r\b" + e + "\r\b");
+                }
+                
+            }
+
+            return CurrentID;
+            
+        }
 
 
     }
