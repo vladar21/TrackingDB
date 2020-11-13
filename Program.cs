@@ -20,12 +20,18 @@ namespace TrackingDB
         /// ключ :q - конец ввода пользователей
         /// </summary>
         public static bool Q { get; set; } = true;
-
-        private static DB db { get; set; } = new DB();
+        /// <summary>
+        /// контекст базы данных
+        /// </summary>
+        private static DB db { get; set; } // = new DB();
 
         static void Main() // string[] args
         {
-            string[] args = { "add", "-k", "12345" };
+            db = new DB();
+            
+            //string[] args = { "add", "-k", "12345" };
+            string[] args = { "read", "-k", "12345" };
+            
             if (args.Count() > 0 && args.Count() < 4)
             {
                 CLI cli = new CLI(args);
@@ -51,33 +57,12 @@ namespace TrackingDB
                 WriteLine("Incorrect input datas. Try again.");
             }
 
-
-
-            //DB db = new DB();
-            //User user1 = new User("Vasily", "Pupkin", 35);
-            //db.SaveUser(user1);
-            //User user2 = new User("Masha", "Lopareva", 15);
-            //db.SaveUser(user2);
-            //Point point1 = new Point(25.222, 32.777, 1);
-            //db.SavePoint(point1);
-            //Point point2 = new Point(25.220, 32.780, 1);
-            //db.SavePoint(point2);
-            //Point point3 = new Point(25.218, 32.787, 1);
-            //db.SavePoint(point3);
-            //Point point4 = new Point(40.001, 60.02, 2);
-            //db.SavePoint(point4);
-            //Point point5 = new Point(40.003, 60.08, 2);
-            //db.SavePoint(point5);
-
             WriteLine("The session is over");
-
-
         }
 
         private static void PrintDB()
         {
-            //DB db = new DB();
-            //foreach($item in db.usersList)
+            db.PrintDB();
         }
 
         private static void InputNewUsers()
@@ -94,13 +79,12 @@ namespace TrackingDB
                 {
                     if (readline.Count() != 3)
                     {
-                        WriteLine("Incorrect input users data. Try again. \r\b\r\b Press any keys to exit");
+                        WriteLine("Incorrect input users data. Try again." + NewLine + NewLine + "Press any keys to exit");
                         ReadKey();
                         Exit(0);
                     }
 
                     User user = new User(readline);
-                    //DB db = new DB();
                     db.SaveUser(user);
 
                     do
@@ -119,7 +103,7 @@ namespace TrackingDB
                                 do 
                                 {
                                     T = true;
-                                    WriteLine("Incorrect input users data. Try again." + Environment.NewLine + Environment.NewLine + "Or type :t to exit");
+                                    WriteLine("Incorrect input users data. Try again." + NewLine + NewLine + "Or type :t to exit");
                                     strPoint = ReadLine();
                                     readPoint = ParseArguments(strPoint);
                                     if (readPoint[0] == ":t" || readPoint.Count() == 2)
@@ -129,14 +113,13 @@ namespace TrackingDB
                                 } while (T);
 
                                 T = true;
-                                //ReadKey();
-                                //Exit(0);
+
                             }
                             string ltt = string.Join("", readPoint[0]);
                             string lng = string.Join("", readPoint[1]);
                             (string latitude, string longitude, int userID) newPoint = (ltt, lng, user.ID);
                             Point point = new Point(newPoint);
-                            //DB dbP = new DB();
+
                             db.SavePoint(point);
                         }
                     }
