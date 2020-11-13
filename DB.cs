@@ -73,6 +73,26 @@ namespace TrackingDB
 
         }
 
+        public void FindByUserName(string pattern)
+        {
+            var result = (from t1 in allPointsList
+                          join t2 in usersList
+                          on t1.UserID equals t2.ID
+                          select new { t1.Latitude, t1.Longitude, t2.Name, t2.LastName, t2.Age }).ToList();
+            var groupresult = from user in result group user by (user.Name, user.LastName, user.Age) into g select new { Name = g.Key, Points = from p in g select (p.Latitude, p.Longitude) };
+
+            var findresult = groupresult.Where(r => r.Name.ToString().ToLower().Contains(pattern)).ToList();
+
+            foreach (var group in findresult)
+            {
+                WriteLine(group.Name);
+                foreach (var point in group.Points)
+                {
+                    WriteLine(point.Latitude + " " + point.Longitude);
+                }
+            }
+        }
+
         public void PrintDB()
         {
             var result = (from t1 in allPointsList
@@ -168,7 +188,7 @@ namespace TrackingDB
                 using (FileStream fs = new FileStream(LogPath, FileMode.Append, FileAccess.Write))
                 using (StreamWriter sw = new StreamWriter(fs))
                 {
-                    sw.WriteLine("DB error: " + DateTime.Now + "\r\b" + e + "\r\b");
+                    sw.WriteLine("DB error: " + DateTime.Now + NewLine + e + NewLine);
                 }
 
             }

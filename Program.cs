@@ -28,10 +28,11 @@ namespace TrackingDB
         static void Main() // string[] args
         {
             db = new DB();
-            
+
             //string[] args = { "add", "-k", "12345" };
-            string[] args = { "read", "-k", "12345" };
-            
+            //string[] args = { "read", "-k", "12345" };
+            string[] args = { "find", "-k", "12345" };
+
             if (args.Count() > 0 && args.Count() < 4)
             {
                 CLI cli = new CLI(args);
@@ -49,7 +50,7 @@ namespace TrackingDB
 
                 if (cli.Find && cli.K && args.Count() == 3 && cli.Verify)
                 {
-                    //FindByUserName();
+                    FindByUserName("e");
                 }
             }
             else
@@ -60,6 +61,11 @@ namespace TrackingDB
             WriteLine("The session is over");
         }
 
+        private static void FindByUserName(string pattern)
+        {
+            pattern = pattern.ToLower();
+            db.FindByUserName(pattern);
+        }
         private static void PrintDB()
         {
             db.PrintDB();
