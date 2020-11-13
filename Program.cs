@@ -25,15 +25,15 @@ namespace TrackingDB
         /// </summary>
         private static DB db { get; set; } // = new DB();
 
-        static void Main() // string[] args
+        static void Main(string[] args) // string[] args
         {
             db = new DB();
 
             //string[] args = { "add", "-k", "12345" };
             //string[] args = { "read", "-k", "12345" };
-            string[] args = { "find", "-k", "12345" };
+            //string[] args = { "find", "E", "-k", "12345" };
 
-            if (args.Count() > 0 && args.Count() < 4)
+            if (args.Count() > 0 && args.Count() < 5)
             {
                 CLI cli = new CLI(args);
 
@@ -48,9 +48,9 @@ namespace TrackingDB
                     PrintDB();
                 }
 
-                if (cli.Find && cli.K && args.Count() == 3 && cli.Verify)
+                if (cli.Find && cli.K && args.Count() == 4 && cli.Verify)
                 {
-                    FindByUserName("e");
+                    FindByUserName(args[1]);
                 }
             }
             else
@@ -64,7 +64,10 @@ namespace TrackingDB
         private static void FindByUserName(string pattern)
         {
             pattern = pattern.ToLower();
-            db.FindByUserName(pattern);
+            if (!db.FindByUserName(pattern))
+            {
+                WriteLine("Not found");
+            }
         }
         private static void PrintDB()
         {

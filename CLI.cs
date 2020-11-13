@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace TrackingDB
 {
+    /// <summary>
+    /// класс для работы с командной строкой
+    /// </summary>
     public class CLI
     {
         public bool Add { get; set; }
@@ -21,7 +24,15 @@ namespace TrackingDB
             Read = list.Contains("read");
             Find = list.Contains("find");
             K = list.Contains("-k");
-            Verify = args[2] == password ? true : false;
+            if (args.Count() == 4)
+            {
+                Verify = args[3] == password ? true : false;
+            }
+            else
+            {
+                Verify = args[2] == password ? true : false;
+            }
+            
         }
     }
 }

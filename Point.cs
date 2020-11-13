@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace TrackingDB
 {
+    /// <summary>
+    /// класс для работы с координатами
+    /// </summary>
     public class Point
     {
         public string Latitude { get; set; }

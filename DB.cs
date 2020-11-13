@@ -12,13 +12,37 @@ namespace TrackingDB
 {
     public class DB
     {
+        /// <summary>
+        /// имя файла для хранения данных о пользователях
+        /// </summary>
         static string NameUserDB = "user.db";
+        /// <summary>
+        /// имя файла для хранения координат
+        /// </summary>
         static string NameTrackingDB = "tracking.db";
+        /// <summary>
+        /// наибольший ID пользователя, хранящийся в базе
+        /// </summary>
         public int CurrentID { get; set; }
+        /// <summary>
+        /// путь к файлу, с данными о пользователях
+        /// </summary>
         private string PathUserDB { get; set; }
+        /// <summary>
+        /// путь к файлу, с данными о координатах
+        /// </summary>
         private string PathTrackingDB { get; set; }
+        /// <summary>
+        /// путь к логу
+        /// </summary>
         private string LogPath { get; set; } = "log.txt";
+        /// <summary>
+        /// актуальный список пользователей
+        /// </summary>
         public List<User> usersList { get; set; }
+        /// <summary>
+        /// актуальный список координат
+        /// </summary>
         private List<Point> allPointsList { get; set; }
 
         public DB()
@@ -73,7 +97,10 @@ namespace TrackingDB
 
         }
 
-        public void FindByUserName(string pattern)
+        /// <summary>
+        /// метод поиска по имени пользователя
+        /// </summary>
+        public bool FindByUserName(string pattern)
         {
             var result = (from t1 in allPointsList
                           join t2 in usersList
@@ -83,16 +110,27 @@ namespace TrackingDB
 
             var findresult = groupresult.Where(r => r.Name.ToString().ToLower().Contains(pattern)).ToList();
 
-            foreach (var group in findresult)
+            if (findresult.Count() > 0)
             {
-                WriteLine(group.Name);
-                foreach (var point in group.Points)
+                foreach (var group in findresult)
                 {
-                    WriteLine(point.Latitude + " " + point.Longitude);
+                    WriteLine(group.Name);
+                    foreach (var point in group.Points)
+                    {
+                        WriteLine(point.Latitude + " " + point.Longitude);
+                    }
                 }
+
+                return true;
             }
+
+            return false;
+            
         }
 
+        /// <summary>
+        /// метод печати данных из базы
+        /// </summary>
         public void PrintDB()
         {
             var result = (from t1 in allPointsList
@@ -111,6 +149,9 @@ namespace TrackingDB
             }
         }
 
+        /// <summary>
+        /// метод для сохрания в базе новых координат
+        /// </summary>
         public bool SavePoint(Point point)
         {
             // проверка на наличие в базе пользоватля с id, указанным при создании трек-точки
@@ -142,6 +183,9 @@ namespace TrackingDB
             return false;
         }
 
+        /// <summary>
+        /// метод для сохранения в базе нового пользователя
+        /// </summary>
         public bool SaveUser(User user)
         {
             GetNextUserID();
@@ -165,6 +209,10 @@ namespace TrackingDB
             return true;
         }
 
+        /// <summary>
+        /// метод для опредения следующего по порядку идентификатора в таблице пользователей
+        /// </summary>
+        /// <returns></returns>
         public int GetNextUserID()
         {
             try
